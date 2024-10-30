@@ -1,0 +1,69 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/In_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EDEEEF"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/home_icon"
+            android:layout_width="59dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/img_1"></ImageView>
+
+        <EditText
+            android:id="@+id/searchEditText"
+            android:layout_width="270dp"
+            android:layout_height="54dp"
+            android:background="#0055A8"
+            android:hint="Tìm kiếm..."
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+
+        <ImageView
+            android:id="@+id/btnsearch"
+            android:layout_width="47dp"
+            android:layout_height="match_parent"
+            android:background="#0055A8"
+            android:src="@drawable/ic_search"></ImageView>
+    </LinearLayout>
+    <!--   Banner   -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/bannerViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:text="NỔI BẬT"
+        android:textColor="@color/blue"
+        android:textStyle="bold"></TextView>
+    <!--   List of items (Books)   -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/bookRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="vertical" />
+    <!--   Navigation Bar   -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_gravity="bottom"
+        android:background="#BFD9F2"
+        app:menu="@menu/nav_menu" />
+</LinearLayout>
