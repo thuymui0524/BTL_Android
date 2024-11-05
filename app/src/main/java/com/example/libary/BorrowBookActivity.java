@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.libary.database.DatabaseHelper;
@@ -24,15 +26,16 @@ public class BorrowBookActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_borrow_book);
-
+        DatabaseHelper databaseHelper;
+        databaseHelper=new DatabaseHelper(this);
         textViewReaderName = findViewById(R.id.textViewReaderName);
         textViewBookName = findViewById(R.id.textViewBookName);
         textViewBorrowDate = findViewById(R.id.textViewBorrowDate);
         textViewReturnDate = findViewById(R.id.textViewReturnDate);
         buttonConfirmBorrow = findViewById(R.id.buttonConfirmBorrow);
         btnCancel=findViewById(R.id.btnCancel);
+        String readerBook=(String) getIntent().getStringExtra("id");
 
-        String readerBook=getIntent().getStringExtra("title");
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         String readerName = sharedPreferences.getString("USERNAME", "Người dùng");
         textViewReaderName.setText("Tên Độc Giả: " + readerName);
@@ -47,6 +50,10 @@ public class BorrowBookActivity extends AppCompatActivity {
         buttonConfirmBorrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+//                databaseHelper.insertBorrowRecord(readerName, readerBook, borrowDate, returnDate);
+
+                Toast.makeText(BorrowBookActivity.this, "Mượn sách thành công", Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent (BorrowBookActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();

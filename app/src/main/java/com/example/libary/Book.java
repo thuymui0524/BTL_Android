@@ -4,11 +4,11 @@ public class Book {
     private int imageId;
     private String title;
 
-    public Book(int imageId, String title) {
+    public Book(int imageId, String title ) {
         this.imageId = imageId;
         this.title = title;
-    }
 
+    }
     public int getImageId() {
         return imageId;
     }
@@ -16,4 +16,6 @@ public class Book {
     public String getTitle() {
         return title;
     }
+
+
 }

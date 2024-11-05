@@ -58,8 +58,8 @@ public class HomeActivity extends AppCompatActivity{
         // Thêm các hình ảnh banner vào List
         bannerImages = new ArrayList<>();
         bannerImages.add(R.drawable.banner);
+        bannerImages.add(R.drawable.img_2);
         bannerImages.add(R.drawable.tuyensinhdhmo);
-        bannerImages.add(R.drawable.image);
         bannerImages.add(R.drawable.elearning);
 
         // Cài đặt Adapter cho ViewPager
@@ -84,7 +84,10 @@ public class HomeActivity extends AppCompatActivity{
         btnsearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchBook();
+//                searchBook();
+                Intent intent=new Intent(HomeActivity.this,SearchActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -96,11 +99,11 @@ public class HomeActivity extends AppCompatActivity{
                     searchBook();
                     return true;
                 }
-                return false;
+                    return false;
             }
         });
 
-// Thiết lập BottomNavigationView
+// xu lu su kien  BottomNavigationView
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -108,6 +111,11 @@ public class HomeActivity extends AppCompatActivity{
                 int id = item.getItemId();
                 if (id == R.id.nav_account) {
                     Intent intent = new Intent(HomeActivity.this, AccountActivity.class);
+                    startActivity(intent);
+                    return true;
+               }
+                else if (id == R.id.nav_favorite) {
+                    Intent intent = new Intent(HomeActivity.this, ThuVienActivity.class);
                     startActivity(intent);
                     return true;
                 }
@@ -131,8 +139,14 @@ public class HomeActivity extends AppCompatActivity{
         recyclerView.setAdapter(bookAdapter);
 
         // Thêm sách
-//        databaseHelper.addBook(R.drawable.img, "giao trinh triet hoc Mac-Lenin");
-//        databaseHelper.addBook(R.drawable.giaotrinhtinhocdaicuong_001thumbimage, "giao trinh tin hoc dai cuong");
+//        databaseHelper.addBook(R.drawable.img, "Giao trinh Triet hoc Mac-Lenin");
+//        databaseHelper.addBook(R.drawable.giaotrinhtinhocdaicuong_001thumbimage, "Giao trinh Tin hoc dai cuong");
+
+
+//        String newName="giao trinh tin hoc dai cuong";
+//        String oldName = "Giáo trình Tin học đại cương";
+//        databaseHelper.updateBook( oldName,newName);
+
 
 
 
@@ -151,18 +165,26 @@ public class HomeActivity extends AppCompatActivity{
     }
     //phuong thuc tim kiem sach
     private void searchBook() {
-        String keyword = searchEditText.getText().toString().trim();
+        String keyword = searchEditText.getText().toString().toLowerCase().trim();
+//        String normalizedInput = textUtils.removeDiacritics((keyword));
+//        if (normalizedInput.contains(normalizedInput)) {
+//
+//            List<String> searchResults = databaseHelper.searchTruyen(normalizedInput);
+//            Intent intent = new Intent(HomeActivity.this, SearchResultActivity.class);
+//            intent.putStringArrayListExtra("searchResults", (ArrayList<String>) searchResults);
+//            startActivity(intent);
+////            Toast.makeText(this, "Found!", Toast.LENGTH_SHORT).show();
+//        } else {
+//
+//            Toast.makeText(this, "Not Found!", Toast.LENGTH_SHORT).show();
+//        }
         if (keyword.equalsIgnoreCase(keyword)) {
             List<String> searchResults = databaseHelper.searchTruyen(keyword);
-
-
             Intent intent = new Intent(HomeActivity.this, SearchResultActivity.class);
             intent.putStringArrayListExtra("searchResults", (ArrayList<String>) searchResults);
             startActivity(intent);
         } else {
-
             Toast.makeText(HomeActivity.this, "Vui lòng nhập từ khóa!", Toast.LENGTH_SHORT).show();
         }
     }
-
 }

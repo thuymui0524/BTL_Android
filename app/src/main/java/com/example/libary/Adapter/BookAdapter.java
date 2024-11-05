@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,14 +19,22 @@ import com.example.libary.BorrowBookActivity;
 import com.example.libary.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder> {
     private Context context;
-    private ArrayList<Book> bookList;
 
-    public BookAdapter(Context context, ArrayList<Book> bookList) {
+//    public BookAdapter(ArrayList<Book> bookList) {
+//        this.bookList = bookList;
+//        this.mbookListOld=bookList;
+//    }
+    private ArrayList<Book> bookList;
+    private ArrayList<Book> mbookListOld;
+
+    public BookAdapter(Context context, ArrayList<Book> bookList ) {
         this.context = context;
         this.bookList = bookList;
+
     }
 
     @NonNull
@@ -75,6 +85,35 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
             });
         }
     }
+//    public Filter getFilter(){
+//        return new Filter() {
+//            @Override
+//            protected FilterResults performFiltering(CharSequence charSequence) {
+//                String strSearch=charSequence.toString();
+//                if(strSearch.isEmpty()){
+//                    bookList=mbookListOld;
+//                }else{
+//                    List<Book> list=new ArrayList<>();
+//                    for(Book book : mbookListOld){
+//                        if(book.getTitle().toLowerCase().contains(strSearch.toLowerCase())){
+//                            list.add(book);
+//                        }
+//                    }
+//                    bookList = (ArrayList<Book>) list;
+//                }
+//                FilterResults filterResults=new FilterResults();
+//                filterResults.values=bookList;
+//
+//                return filterResults;
+//            }
+//
+//            @Override
+//            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+//                bookList = (ArrayList<Book>) filterResults.values;
+//                notifyDataSetChanged();
+//            }
+//        };
+//    }
 
 
 }
