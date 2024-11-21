@@ -48,7 +48,7 @@ public class HomeActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        // Khởi tạo ViewPager2 và RecyclerView
         bannerViewPager = findViewById(R.id.bannerViewPager);
         recyclerView = findViewById(R.id.bookRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -102,29 +102,33 @@ public class HomeActivity extends AppCompatActivity{
                     return false;
             }
         });
-
+// code dung de them bottomNavigation vao trong LinearLayout
+        BottomNavigationFragment bottomNavigationFragment = new BottomNavigationFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.bottom_navigation_container, bottomNavigationFragment)
+                .commit();
 // xu lu su kien  BottomNavigationView
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id = item.getItemId();
-                if (id == R.id.nav_account) {
-                    Intent intent = new Intent(HomeActivity.this, AccountActivity.class);
-                    startActivity(intent);
-                    return true;
-               }
-                else if (id == R.id.nav_favorite) {
-                    Intent intent = new Intent(HomeActivity.this, ThuVienActivity.class);
-                    startActivity(intent);
-                    return true;
-                }
-                return false;
-            }
-        });
+//        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                int id = item.getItemId();
+//                if (id == R.id.nav_account) {
+//                    Intent intent = new Intent(HomeActivity.this, AccountActivity.class);
+//                    startActivity(intent);
+//                    return true;
+//               }
+//                else if (id == R.id.nav_favorite) {
+//                    Intent intent = new Intent(HomeActivity.this, ThuVienActivity.class);
+//                    startActivity(intent);
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
 
         handler.postDelayed(runnable, 3000);
-
+// Cài đặt RecyclerView cho danh sách sách
         ImageView bannerImageView = findViewById(R.id.bannerImageView);
         searchEditText = findViewById(R.id.searchEditText);
 
@@ -147,7 +151,8 @@ public class HomeActivity extends AppCompatActivity{
 //        String oldName = "Giáo trình Tin học đại cương";
 //        databaseHelper.updateBook( oldName,newName);
 
-
+        databaseHelper.addBook(R.drawable.img, "giao trinh triet hoc Mac-Lenin");
+        databaseHelper.addBook(R.drawable.giaotrinhtinhocdaicuong_001thumbimage, "giao trinh tin hoc dai cuong");
 
 
 
@@ -186,5 +191,6 @@ public class HomeActivity extends AppCompatActivity{
         } else {
             Toast.makeText(HomeActivity.this, "Vui lòng nhập từ khóa!", Toast.LENGTH_SHORT).show();
         }
+
     }
 }

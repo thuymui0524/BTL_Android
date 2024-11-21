@@ -105,8 +105,9 @@ public class BookDetailActivity extends AppCompatActivity {
     }
     private void readBook() {
 
-//        Intent intent = new Intent(this, PdfViewActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(this, read_book.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
     }
     private void getview(){
         imageView_back=findViewById(R.id.back_home_read);

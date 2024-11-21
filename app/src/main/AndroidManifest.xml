@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Libary"
         tools:targetApi="31">
         <activity
+            android:name=".read_book"
+            android:exported="false" />
+        <activity
             android:name=".M00SplashFrg"
             android:exported="true">
             <intent-filter>
@@ -20,17 +23,20 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".HomeActivity"></activity>
-        <activity android:name=".SearchResultActivity"></activity>
-        <activity android:name=".BookDetailActivity"></activity>
-        <activity android:name=".BorrowBookActivity"></activity>
-        <activity android:name=".AccountActivity"></activity>
-        <activity android:name=".ThuVienActivity"></activity>
-        <activity android:name=".ChangepasswordActivity"></activity>
-        <activity android:name=".SearchActivity"></activity>
+        <activity
+            android:name=".BookHistory"
+            android:exported="false"/>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".SearchResultActivity" />
+        <activity android:name=".BookDetailActivity" />
+        <activity android:name=".BorrowBookActivity" />
+        <activity android:name=".AccountActivity" />
+        <activity android:name=".ThuVienActivity" />
+        <activity android:name=".ChangepasswordActivity" />
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".BottomNavigationFragment" />
     </application>
 
 </manifest>
