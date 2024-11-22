@@ -11,6 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ThuVienActivity extends AppCompatActivity {
     BottomNavigationFragment bottomNavigationFragment = new BottomNavigationFragment();
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.thuvien_activity);
@@ -20,13 +21,10 @@ public class ThuVienActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.bottom_navigation_container, bottomNavigationFragment)
                 .commit();
+        // các sự kiện lấy loại sách
 
 
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        bottomNavigationFragment.updateSelectedItem(R.id.nav_favorite);
-//    }
+
 }

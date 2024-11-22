@@ -184,8 +184,10 @@ public class DatabaseHelper extends SQLiteOpenHelper  {
 
                 int imageId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_ID));
                 String title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE));
+                // them lay id cua sach
+                String idBook = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ID));
 
-                Book book = new Book(imageId, title);
+                Book book = new Book(imageId, title,idBook);
                 bookList.add(book);
 
             } while (cursor.moveToNext());
@@ -275,7 +277,7 @@ public class DatabaseHelper extends SQLiteOpenHelper  {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_BOOK + " WHERE " + COLUMN_TITLE + " =?", new String[]{String.valueOf(idBook)});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_BOOK + " WHERE " + COLUMN_ID + " =?", new String[]{String.valueOf(idBook)});
 
         if (cursor.moveToFirst()) {
             idimg=cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_ID));
@@ -297,7 +299,7 @@ public class DatabaseHelper extends SQLiteOpenHelper  {
         String query = "SELECT " + TABLE_BOOK + "." + COLUMN_ID + ", " + TABLE_DATABOOK + "." + COLUMN_IDBOOKS + ", " + COLUMN_DATABOOK
         + " FROM " + TABLE_DATABOOK + " INNER JOIN " + TABLE_BOOK
         + " ON " + TABLE_BOOK + "." + COLUMN_ID + " = " + TABLE_DATABOOK + "." + COLUMN_IDBOOKS
-        + " WHERE " + COLUMN_TITLE + " = ?";
+        + " WHERE " + COLUMN_ID + " = ?";
         Cursor cursor = db.rawQuery(query, new String[]{bookId});
         if (cursor.moveToFirst()) {
             pdfPath = cursor.getString(cursor.getColumnIndex(COLUMN_DATABOOK));

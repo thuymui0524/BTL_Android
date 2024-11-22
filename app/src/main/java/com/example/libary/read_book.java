@@ -22,6 +22,7 @@ public class read_book extends AppCompatActivity {
     DatabaseHelper databaseHelper = new DatabaseHelper(this);
     String title;
     String id;
+    String id_book;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,17 +36,18 @@ public class read_book extends AppCompatActivity {
         // quay ve lay out cu
         ImageView back_homett = findViewById(R.id.back_homett);
         back_homett.setOnClickListener(v -> finish());
-        //lay du lieu tu intent
+
         TextView readbook = findViewById(R.id.readbook);
-        //lay ten sach
-        String a = getIntent().getStringExtra("id");
+        //lay du lieu tu intent
+         id_book= getIntent().getStringExtra("idBook");
+        String a = getIntent().getStringExtra("id"); //lay ten sach
 //        String a ="qua tang cuoc song";
         readbook.setText(a);
         // Load the PDF
         PDFView pdfView = findViewById(R.id.pdfView);
-
+       // da thay doi tu tim kiem data tu String a sang id_book 22/11/2024
         if (a != null) {
-            String pdf_path = databaseHelper.getBookPdfPath(a);
+            String pdf_path = databaseHelper.getBookPdfPath(id_book);
             try {
                 InputStream inputStream = getAssets().open("TRR_Ontap.pdf");
                 pdfView.fromStream(inputStream)

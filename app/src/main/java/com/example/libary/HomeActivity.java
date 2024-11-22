@@ -151,8 +151,8 @@ public class HomeActivity extends AppCompatActivity{
 //        String oldName = "Giáo trình Tin học đại cương";
 //        databaseHelper.updateBook( oldName,newName);
 
-        databaseHelper.addBook(R.drawable.img, "giao trinh triet hoc Mac-Lenin");
-        databaseHelper.addBook(R.drawable.giaotrinhtinhocdaicuong_001thumbimage, "giao trinh tin hoc dai cuong");
+//        databaseHelper.addBook(R.drawable.img, "giao trinh triet hoc Mac-Lenin");
+//        databaseHelper.addBook(R.drawable.giaotrinhtinhocdaicuong_001thumbimage, "giao trinh tin hoc dai cuong");
 
 
 
