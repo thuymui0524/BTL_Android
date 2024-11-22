@@ -70,7 +70,7 @@
                     android:layout_height="50dp"
 
                     android:backgroundTint="#287EDC"
-                    android:text="Tài liệu giấy"
+                    android:text="Sách giáo trình"
                     android:textStyle="bold"></Button>
             </RelativeLayout>
 
@@ -108,7 +108,7 @@
                     android:layout_height="50dp"
 
                     android:backgroundTint="#287EDC"
-                    android:text="Tài liệu in"
+                    android:text="Sách tham khảo"
                     android:textStyle="bold"></Button>
             </RelativeLayout>
 
@@ -150,7 +150,7 @@
                     android:layout_height="50dp"
 
                     android:backgroundTint="#287EDC"
-                    android:text="Học liệu điện tử"
+                    android:text="Tạp chí"
                     android:textStyle="bold"></Button>
             </RelativeLayout>
 
@@ -187,7 +187,7 @@
                     android:layout_height="50dp"
 
                     android:backgroundTint="#287EDC"
-                    android:text="Thông tin"
+                    android:text="Luận văn "
                     android:textStyle="bold"></Button>
             </RelativeLayout>
 
