@@ -307,4 +307,27 @@ public class DatabaseHelper extends SQLiteOpenHelper  {
         db.close();
         return pdfPath;
     }
+    // lấy sách cùng loại sách
+    public ArrayList<Book> getBooksByType( String idType) {
+        ArrayList<Book> books = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT " + COLUMN_ID + ", " + COLUMN_TITLE + ", " + COLUMN_IMAGE_ID
+                + " FROM " + TABLE_BOOK
+                + " WHERE " + COLUMN_IDTYPE_BOOK + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{idType});
+
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID));
+                String title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE));
+                int imageId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_ID));
+
+                Book book = new Book(imageId, title, String.valueOf(id));
+                books.add(book);
+            }
+            cursor.close();
+        }
+        return books;
+    }
+
 }
