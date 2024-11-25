@@ -49,7 +49,7 @@ public class read_book extends AppCompatActivity {
         if (a != null) {
             String pdf_path = databaseHelper.getBookPdfPath(id_book);
             try {
-                InputStream inputStream = getAssets().open("TRR_Ontap.pdf");
+                InputStream inputStream = getAssets().open(pdf_path);
                 pdfView.fromStream(inputStream)
                         .defaultPage(0) // trang mặc định
                         .enableSwipe(true) // cho phép vuốt

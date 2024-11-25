@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.libary.Book;
+import com.example.libary.ClassAdapterHistory;
 import com.example.libary.textUtils;
 
 import java.io.FileOutputStream;
@@ -21,6 +22,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class DatabaseHelper extends SQLiteOpenHelper  {
+    //
+    public  ArrayList<ClassAdapterHistory> bookList = new ArrayList<>();
+    //
     private static final String DATABASE_NAME = "LibraryDB";
     private static final int DATABASE_VERSION = 1;
 
@@ -105,6 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper  {
         db.execSQL("INSERT INTO " + TABLE_HISTORYBOOK + " (idBook, idUser, dTime) VALUES (1, 1, '2012-05-04')");
         db.execSQL("INSERT INTO " + TABLE_USER + " (idUser, password,username) VALUES ('admin', 'admin123','ADMIN')");
         db.execSQL("INSERT INTO " + TABLE_USER + " (idUser, password,username) VALUES ('user1', 'password1','USER1')");
+        db.execSQL("INSERT INTO "+TABLE_DATABOOK+ " (idBook, sDatabook) VALUES (1, 'TRR_Ontap.pdf')");
     }
 
 
@@ -329,5 +334,40 @@ public class DatabaseHelper extends SQLiteOpenHelper  {
         }
         return books;
     }
+    public ArrayList<ClassAdapterHistory> getAllhtrBook(int idUser) {
 
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT " + COLUMN_TITLE + ", "
+                        + COLUMN_IDBOOK + ", " +COLUMN_IMAGE_ID+", "+ COLUMN_TIME
+                        + " FROM " + TABLE_BOOK + " INNER JOIN "
+                        + TABLE_HISTORYBOOK + " ON " + TABLE_BOOK
+                        + "." + COLUMN_ID + " = " + TABLE_HISTORYBOOK
+                        + "." + COLUMN_IDBOOK + " WHERE "
+                        + COLUMN_ID_USES + "=" +idUser, null);
+        if (cursor.moveToFirst()) {
+            do {
+                String title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE));
+                int idigm = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_ID));
+                String time = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME));
+                ClassAdapterHistory classAdapterHistory = new ClassAdapterHistory(idigm, title, time);
+                bookList.add(classAdapterHistory);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return bookList;
+    }
+    // luu sach
+    public void saveHistory(int idUser, int idBook){
+        Date datesave=new Date();
+        // Định dạng thời gian
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedNow = formatter.format(datesave);
+        SQLiteDatabase db=this.getWritableDatabase();
+        db.execSQL("INSERT INTO " + TABLE_HISTORYBOOK + " (idBook, idUser,dTime) VALUES ( "+ idBook+","+idUser+",'"+formattedNow+"'"+" )");
+
+
+    }
 }
