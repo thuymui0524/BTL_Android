@@ -27,20 +27,34 @@ public class DatabaseHelper extends SQLiteOpenHelper  {
     // Tên bảng và cột cho bảng User
     private static final String TABLE_USER = "user";
     private static final String COLUMN_USER_ID = "id";
+    private static final String COLUM_ID_USER="idUser";// MSV
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
+
     // Tên bảng và cột cho bảng Book
     private static final String TABLE_BOOK = "book";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_IMAGE_ID = "image_id";
     private static final String COLUMN_TITLE = "title";
-    // Tên bảng và cột cho bảng Borrow History
-    private static final String TABLE_BORROW_HISTORY = "BorrowHistory";
-    private static final String COLUMN_HISTORY_ID = "history_id";
-    private static final String COLUMN_BOOK_ID = "book_id";
-    private static final String COLUMN_TITLEBOOK = "title";
-    private static final String COLUMN_IMAGE_RESOURCE_ID = "imageResourceId";
-    private static final String COLUMN_BORROW_DATE = "borrowDate";
+    private static final String COLUMN_IDTYPE_BOOK="idType";
+
+
+    // Bảng lịch sử đọc sách
+    private static final String TABLE_HISTORYBOOK="btlHisStory";
+    private static final String COLUMN_IDHisStory="idHTR";
+    private static final String COLUMN_IDBOOK="idBook";
+    private static final String COLUMN_ID_USES="idUser";
+    private static final String COLUMN_TIME="dTime";
+
+    //Bảng lưu trữ dử liệu Sách
+    private static final String TABLE_DATABOOK="btlDataBook";
+    private static final String COLUMN_IDDATA="idData";
+    private static final String COLUMN_IDBOOKS="idBook";
+    private static final String COLUMN_DATABOOK="sDatabook";
+    //bảng loại sách
+    private static final String TABLE_TYPEBOOK="btlTypeBook";
+    private static final String COLUMN_IDTYPE="idType";
+    private static final String COLUMN_NAMETYPE="nameType";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -49,6 +63,7 @@ public class DatabaseHelper extends SQLiteOpenHelper  {
     public void onCreate(SQLiteDatabase db){
         String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
                 + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COLUM_ID_USER + " TEXT, "
                 + COLUMN_USERNAME + " TEXT, "
                 + COLUMN_PASSWORD + " TEXT" + ")";
         db.execSQL(CREATE_USER_TABLE);
@@ -56,31 +71,90 @@ public class DatabaseHelper extends SQLiteOpenHelper  {
         // Tạo bảng Book
         String CREATE_BOOK_TABLE = "CREATE TABLE " + TABLE_BOOK + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COLUMN_IDTYPE_BOOK + " INTEGER, "
                 + COLUMN_IMAGE_ID + " INTEGER, "
                 + COLUMN_TITLE + " TEXT)";
         db.execSQL(CREATE_BOOK_TABLE);
 
+        // Tạo bảng lịch sử đọc sách với khóa ngoại
+        String CREATE_HISTORY_TABLE = "CREATE TABLE " + TABLE_HISTORYBOOK + "("
+                + COLUMN_IDHisStory + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COLUMN_IDBOOK + " INTEGER, "
+                + COLUMN_ID_USES + " INTEGER, "
+                + COLUMN_TIME + " DATE, "
+                + "FOREIGN KEY(" + COLUMN_IDBOOK + ") REFERENCES " + TABLE_BOOK + "(" + COLUMN_ID + "), "
+                + "FOREIGN KEY(" + COLUMN_ID_USES + ") REFERENCES " + TABLE_USER + "(" + COLUMN_USER_ID + ")"
+                + ")";
+        db.execSQL(CREATE_HISTORY_TABLE);
 
-
-        db.execSQL("INSERT INTO " + TABLE_USER + " (username, password) VALUES ('admin', 'admin123')");
-        db.execSQL("INSERT INTO " + TABLE_USER + " (username, password) VALUES ('user1', 'password1')");
-        db.execSQL("INSERT INTO " + TABLE_USER + " (username, password) VALUES ('21A100100247', '21A100100247')");
+        // Tạo bảng lưu trữ dữ liệu sách với khóa ngoại
+        String CREATE_DATABOOK_TABLE = "CREATE TABLE " + TABLE_DATABOOK + "("
+                + COLUMN_IDDATA + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COLUMN_IDBOOKS + " INTEGER, "
+                + COLUMN_DATABOOK + " TEXT, "
+                + "FOREIGN KEY(" + COLUMN_IDBOOKS + ") REFERENCES " + TABLE_BOOK + "(" + COLUMN_ID + ")"
+                + ")";
+        db.execSQL(CREATE_DATABOOK_TABLE);
+        // loai sach
+        String CREATE_TYPEBOOK_TABLE = "CREATE TABLE " + TABLE_TYPEBOOK + "("
+                + COLUMN_IDTYPE + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COLUMN_NAMETYPE + " TEXT"
+                + ")";
+        db.execSQL(CREATE_TYPEBOOK_TABLE);
+        // Sample data insertions
+        db.execSQL("INSERT INTO " + TABLE_HISTORYBOOK + " (idBook, idUser, dTime) VALUES (1, 1, '2012-05-04')");
+        db.execSQL("INSERT INTO " + TABLE_USER + " (idUser, password,username) VALUES ('admin', 'admin123','ADMIN')");
+        db.execSQL("INSERT INTO " + TABLE_USER + " (idUser, password,username) VALUES ('user1', 'password1','USER1')");
     }
+
 
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BORROW_HISTORY);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_HISTORYBOOK);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOK);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
 
         onCreate(db);
     }
+    //check users dùng trong AccountActivity
+    public int idUser(String nameusser){
+        int idusers = -1;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_USER_ID
+                + " FROM " + TABLE_USER + " WHERE "
+                + COLUM_ID_USER + "=?", new String[]{nameusser});
+        if (cursor.moveToFirst()) {
+            idusers = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_USER_ID));
+        } else {
+            idusers = 0;
+        }
+        // Đóng cơ sở dữ liệu sau khi sử dụng return idusers;
+        cursor.close();
+        db.close();
+        return idusers;
+    }
+    //lay thong tin ten nguoi dung AccountActivity
+    public String getNameUser(String id){
+        String name="";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_USERNAME
+                + " FROM " + TABLE_USER + " WHERE "
+                + COLUM_ID_USER + "=?", new String[]{String.valueOf(id)});
+
+        if (cursor.moveToFirst()) {
+            name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USERNAME));
+        }
+        cursor.close();
+        db.close();
+        return name;
+
+    }
     //check thong tin username and password
     public boolean checkUser(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USER + " WHERE "
-                + COLUMN_USERNAME + "=? AND " + COLUMN_PASSWORD + "=?", new String[]{username, password});
+                + COLUM_ID_USER + "=? AND " + COLUMN_PASSWORD + "=?", new String[]{username, password});
         if (cursor.getCount() > 0) {
             cursor.close();
             return true;
@@ -110,8 +184,10 @@ public class DatabaseHelper extends SQLiteOpenHelper  {
 
                 int imageId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_ID));
                 String title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE));
+                // them lay id cua sach
+                String idBook = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ID));
 
-                Book book = new Book(imageId, title);
+                Book book = new Book(imageId, title,idBook);
                 bookList.add(book);
 
             } while (cursor.moveToNext());
@@ -201,7 +277,7 @@ public class DatabaseHelper extends SQLiteOpenHelper  {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_BOOK + " WHERE " + COLUMN_TITLE + " =?", new String[]{String.valueOf(idBook)});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_BOOK + " WHERE " + COLUMN_ID + " =?", new String[]{String.valueOf(idBook)});
 
         if (cursor.moveToFirst()) {
             idimg=cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_ID));
@@ -213,6 +289,45 @@ public class DatabaseHelper extends SQLiteOpenHelper  {
         cursor.close();
 
         return idimg;
+    }
+    // tim du lieu pdf của sach
+    @SuppressLint("Range")
+    public String getBookPdfPath(String bookId)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String pdfPath = "";
+        String query = "SELECT " + TABLE_BOOK + "." + COLUMN_ID + ", " + TABLE_DATABOOK + "." + COLUMN_IDBOOKS + ", " + COLUMN_DATABOOK
+        + " FROM " + TABLE_DATABOOK + " INNER JOIN " + TABLE_BOOK
+        + " ON " + TABLE_BOOK + "." + COLUMN_ID + " = " + TABLE_DATABOOK + "." + COLUMN_IDBOOKS
+        + " WHERE " + COLUMN_ID + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{bookId});
+        if (cursor.moveToFirst()) {
+            pdfPath = cursor.getString(cursor.getColumnIndex(COLUMN_DATABOOK));
+        } cursor.close();
+        db.close();
+        return pdfPath;
+    }
+    // lấy sách cùng loại sách
+    public ArrayList<Book> getBooksByType( String idType) {
+        ArrayList<Book> books = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT " + COLUMN_ID + ", " + COLUMN_TITLE + ", " + COLUMN_IMAGE_ID
+                + " FROM " + TABLE_BOOK
+                + " WHERE " + COLUMN_IDTYPE_BOOK + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{idType});
+
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID));
+                String title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE));
+                int imageId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_ID));
+
+                Book book = new Book(imageId, title, String.valueOf(id));
+                books.add(book);
+            }
+            cursor.close();
+        }
+        return books;
     }
 
 }

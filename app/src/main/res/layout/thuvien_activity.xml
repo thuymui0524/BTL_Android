@@ -66,11 +66,12 @@
                 android:layout_marginLeft="13dp">
 
                 <Button
+                    android:id="@+id/btn_Giaotrinh"
+
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-
                     android:backgroundTint="#287EDC"
-                    android:text="Tài liệu giấy"
+                    android:text="Sách giáo trình"
                     android:textStyle="bold"></Button>
             </RelativeLayout>
 
@@ -104,11 +105,12 @@
                 android:layout_marginLeft="13dp">
 
                 <Button
+                    android:id="@+id/btn_Thamkhao"
                     android:layout_width="300dp"
-                    android:layout_height="50dp"
 
+                    android:layout_height="50dp"
                     android:backgroundTint="#287EDC"
-                    android:text="Tài liệu in"
+                    android:text="Sách tham khảo"
                     android:textStyle="bold"></Button>
             </RelativeLayout>
 
@@ -146,11 +148,12 @@
                 android:layout_marginLeft="13dp">
 
                 <Button
+                    android:id="@+id/btn_Tapchi"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
 
+                    android:layout_height="50dp"
                     android:backgroundTint="#287EDC"
-                    android:text="Học liệu điện tử"
+                    android:text="Tạp chí"
                     android:textStyle="bold"></Button>
             </RelativeLayout>
 
@@ -183,34 +186,39 @@
                 android:layout_marginLeft="13dp">
 
                 <Button
+                    android:id="@+id/btn_Luanvan"
                     android:layout_width="300dp"
-                    android:layout_height="50dp"
 
+                    android:layout_height="50dp"
                     android:backgroundTint="#287EDC"
-                    android:text="Thông tin"
+                    android:text="Luận văn "
                     android:textStyle="bold"></Button>
             </RelativeLayout>
 
         </FrameLayout>
     </LinearLayout>
 
-
-
     <LinearLayout
+        android:id="@+id/bottom_navigation_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_gravity="bottom"
-            android:background="#0055A8"
-            app:menu="@menu/nav_menu"
-            android:layout_alignParentBottom="true"
-            app:itemIconTint="@color/nav_item_color"
-            app:itemTextColor="@color/nav_item_color"
-            />
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical"></LinearLayout>
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+<!--        <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--            android:id="@+id/bottom_navigation"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="80dp"-->
+<!--            android:layout_gravity="bottom"-->
+<!--            android:background="#0055A8"-->
+<!--            app:menu="@menu/nav_menu"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            app:itemIconTint="@color/nav_item_color"-->
+<!--            app:itemTextColor="@color/nav_item_color"-->
+<!--            />-->
+<!--    </LinearLayout>-->
 
 
 </LinearLayout>

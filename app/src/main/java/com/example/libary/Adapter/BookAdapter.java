@@ -43,7 +43,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
         View view = LayoutInflater.from(context).inflate(R.layout.item_topic, parent, false);
         return new BookViewHolder(view);
     }
-
+//ham nay dung de load du lieu cho BookDeilActivity
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
         Book book = bookList.get(position);
@@ -54,6 +54,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
             Intent intent = new Intent(context, BookDetailActivity.class);
             intent.putExtra("title", book.getTitle());
             intent.putExtra("imageResourceId", book.getImageId());
+            // chuyen id lay tu co so du lieu
+            intent.putExtra("id_book", book.getId_book());
             context.startActivity(intent);
         });
 
@@ -80,7 +82,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
             imageView.setOnClickListener(v -> {
                 // Chuyển sang `BookDetailActivity` với ID của sách
                 Intent intent = new Intent(context, BookDetailActivity.class);
-                intent.putExtra("title", book.getTitle()); // truyền ID sách sang activity chi tiết
+                intent.putExtra("title", book.getTitle());// truyền ID sách sang activity chi tiết
+                // chuyen id thật
+                intent.putExtra("id_book", book.getId_book());
                 context.startActivity(intent);
             });
         }

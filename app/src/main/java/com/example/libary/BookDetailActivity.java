@@ -21,6 +21,8 @@ public class BookDetailActivity extends AppCompatActivity {
     public String idIMG;
     ImageView imageView_back;
     String title;
+    // them id book
+    String id_book;
     private int imageResourceId;
     DatabaseHelper databaseHelper = new DatabaseHelper(this);
     @Override
@@ -31,14 +33,15 @@ public class BookDetailActivity extends AppCompatActivity {
         TextView storyTitle = findViewById(R.id.detailTitle);
         Button SaveButton = findViewById(R.id.btnSave);
         Button readButton = findViewById(R.id.btnread);
-
+          // lay du lieu tu intent
         title = getIntent().getStringExtra("title");
         imageResourceId = getIntent().getIntExtra("imageResourceId", 0);
         String b;
-        String a= getIntent().getStringExtra("idbook01");
+        String a=getIntent().getStringExtra("book01");
+         id_book= getIntent().getStringExtra("id_book");
         if (title==null || title.equals("")){
             title =a;
-            imageResourceId=databaseHelper.sellectbook(a);
+            imageResourceId=databaseHelper.sellectbook(id_book);
         }
         id=title;
         storyTitle.setText("Tên sách:" +title);
@@ -105,8 +108,10 @@ public class BookDetailActivity extends AppCompatActivity {
     }
     private void readBook() {
 
-//        Intent intent = new Intent(this, PdfViewActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(this, read_book.class);
+        intent.putExtra("id", id);// chuyen tieu de cua sach
+        intent.putExtra("idBook", id_book);// chuyen id cua sach
+        startActivity(intent);
     }
     private void getview(){
         imageView_back=findViewById(R.id.back_home_read);
