@@ -1,7 +1,9 @@
 package com.example.libary;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -68,9 +70,9 @@ public class BookDetailActivity extends AppCompatActivity {
 //
 //                    Toast.makeText(BookDetailActivity.this, "Sách đã được lưu!", Toast.LENGTH_SHORT).show();
 //
-//                    // Quay lại trang HomeActivity hoặc Tài Khoản
-//                    Intent intent_back = new Intent(BookDetailActivity.this, HomeActivity.class);
-//                    startActivity(intent_back);
+////                    // Quay lại trang HomeActivity hoặc Tài Khoản
+////                    Intent intent_back = new Intent(BookDetailActivity.this, HomeActivity.class);
+////                    startActivity(intent_back);
 //                } else {
 //                    Toast.makeText(BookDetailActivity.this, "Không thể lưu sách!", Toast.LENGTH_SHORT).show();
 //                }
@@ -107,7 +109,13 @@ public class BookDetailActivity extends AppCompatActivity {
         startActivity(intent);
     }
     private void readBook() {
-
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        String readerName = sharedPreferences.getString("USERNAME", "Người dùng");
+        databaseHelper.selectidbook(title);
+        int idBook=Integer.parseInt(databaseHelper.luu) ;
+        Toast.makeText(BookDetailActivity.this, idBook+"de", Toast.LENGTH_SHORT).show();
+        int iduser=databaseHelper.idUser(readerName);
+        databaseHelper.saveHistory(iduser,idBook);
         Intent intent = new Intent(this, read_book.class);
         intent.putExtra("id", id);// chuyen tieu de cua sach
         intent.putExtra("idBook", id_book);// chuyen id cua sach
