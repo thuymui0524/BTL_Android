@@ -56,9 +56,7 @@ public class BookHistory extends AppCompatActivity {
         backClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(BookHistory.this,HomeActivity.class);
-                //
-                startActivity(intent);
+                finish();
             }
         });
 

@@ -245,7 +245,7 @@ public class DatabaseHelper extends SQLiteOpenHelper  {
     public boolean checkUserCredentials(String username, String oldPassword) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_USER + " WHERE " +
-                COLUMN_USERNAME + "=? AND " + COLUMN_PASSWORD + "=?";
+                COLUMN_ID_USES + "=? AND " + COLUMN_PASSWORD + "=?";
         Cursor cursor = db.rawQuery(query, new String[]{username, oldPassword});
 
         boolean result = cursor.getCount() > 0;
@@ -259,7 +259,7 @@ public class DatabaseHelper extends SQLiteOpenHelper  {
         ContentValues values = new ContentValues();
         values.put(COLUMN_PASSWORD, newPassword);
 
-        int rowsUpdated = db.update(TABLE_USER, values, COLUMN_USERNAME + "=?", new String[]{username});
+        int rowsUpdated = db.update(TABLE_USER, values,  COLUM_ID_USER+ "=?", new String[]{username});
         return rowsUpdated > 0;
     }
     public int idimg;

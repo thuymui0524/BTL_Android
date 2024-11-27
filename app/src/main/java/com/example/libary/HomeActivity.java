@@ -1,11 +1,14 @@
 package com.example.libary;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,8 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,11 +27,11 @@ import com.example.libary.Adapter.BannerAdapter;
 import com.example.libary.Adapter.BookAdapter;
 import com.example.libary.Adapter.ItemAdapter;
 import com.example.libary.database.DatabaseHelper;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
-public class HomeActivity extends AppCompatActivity{
+
+public class HomeActivity extends Fragment {
     private BookAdapter bookAdapter;
     private ImageView btnsearch;
     private EditText searchEditText;
@@ -43,18 +46,19 @@ public class HomeActivity extends AppCompatActivity{
     private DatabaseHelper databaseHelper;
 
     @SuppressLint("MissingInflatedId")
-
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_home, container, false);
+
         // Khởi tạo ViewPager2 và RecyclerView
-        bannerViewPager = findViewById(R.id.bannerViewPager);
-        recyclerView = findViewById(R.id.bookRecyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        bannerViewPager = view.findViewById(R.id.bannerViewPager);
+        recyclerView = view.findViewById(R.id.bookRecyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         itemAdapter = new ItemAdapter(getItems());
         recyclerView.setAdapter(itemAdapter);
+
         // Thêm các hình ảnh banner vào List
         bannerImages = new ArrayList<>();
         bannerImages.add(R.drawable.banner);
@@ -77,17 +81,17 @@ public class HomeActivity extends AppCompatActivity{
                 handler.postDelayed(this, 3000);
             }
         };
-//        chuc nang tim kiem
-        btnsearch=findViewById(R.id.btnsearch);
-        searchEditText=findViewById(R.id.searchEditText);
-        databaseHelper = new DatabaseHelper(this);
+
+        // Chức năng tìm kiếm
+        btnsearch = view.findViewById(R.id.btnsearch);
+        searchEditText = view.findViewById(R.id.searchEditText);
+        databaseHelper = new DatabaseHelper(getActivity());
         btnsearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                searchBook();
-                Intent intent=new Intent(HomeActivity.this,SearchActivity.class);
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
                 startActivity(intent);
-                finish();
+                getActivity().finish();
             }
         });
 
@@ -95,69 +99,28 @@ public class HomeActivity extends AppCompatActivity{
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH ||
-                        actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {
+                        (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN)) {
                     searchBook();
                     return true;
                 }
-                    return false;
+                return false;
             }
         });
-// code dung de them bottomNavigation vao trong LinearLayout
-        BottomNavigationFragment bottomNavigationFragment = new BottomNavigationFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.bottom_navigation_container, bottomNavigationFragment)
-                .commit();
-// xu lu su kien  BottomNavigationView
-//        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                int id = item.getItemId();
-//                if (id == R.id.nav_account) {
-//                    Intent intent = new Intent(HomeActivity.this, AccountActivity.class);
-//                    startActivity(intent);
-//                    return true;
-//               }
-//                else if (id == R.id.nav_favorite) {
-//                    Intent intent = new Intent(HomeActivity.this, ThuVienActivity.class);
-//                    startActivity(intent);
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
 
         handler.postDelayed(runnable, 3000);
-// Cài đặt RecyclerView cho danh sách sách
-        ImageView bannerImageView = findViewById(R.id.bannerImageView);
-        searchEditText = findViewById(R.id.searchEditText);
 
-        recyclerView = findViewById(R.id.bookRecyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        databaseHelper = new DatabaseHelper(this);
+        // Cài đặt RecyclerView cho danh sách sách
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        databaseHelper = new DatabaseHelper(getActivity());
         bookList = databaseHelper.getAllBook();
-        bookAdapter = new BookAdapter(this, bookList);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        bookAdapter = new BookAdapter(getActivity(), bookList);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
 
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(bookAdapter);
 
-        // Thêm sách
-//        databaseHelper.addBook(R.drawable.img, "Giao trinh Triet hoc Mac-Lenin");
-//        databaseHelper.addBook(R.drawable.giaotrinhtinhocdaicuong_001thumbimage, "Giao trinh Tin hoc dai cuong");
-
-
-//        String newName="giao trinh tin hoc dai cuong";
-//        String oldName = "Giáo trình Tin học đại cương";
-//        databaseHelper.updateBook( oldName,newName);
-
-//        databaseHelper.addBook(R.drawable.img, "giao trinh triet hoc Mac-Lenin");
-//        databaseHelper.addBook(R.drawable.giaotrinhtinhocdaicuong_001thumbimage, "giao trinh tin hoc dai cuong");
-
-
-
+        return view;
     }
-
 
     private List<String> getItems() {
         List<String> items = new ArrayList<>();
@@ -168,29 +131,17 @@ public class HomeActivity extends AppCompatActivity{
         items.add("Item 5");
         return items;
     }
-    //phuong thuc tim kiem sach
+
+    // Phương thức tìm kiếm sách
     private void searchBook() {
         String keyword = searchEditText.getText().toString().toLowerCase().trim();
-//        String normalizedInput = textUtils.removeDiacritics((keyword));
-//        if (normalizedInput.contains(normalizedInput)) {
-//
-//            List<String> searchResults = databaseHelper.searchTruyen(normalizedInput);
-//            Intent intent = new Intent(HomeActivity.this, SearchResultActivity.class);
-//            intent.putStringArrayListExtra("searchResults", (ArrayList<String>) searchResults);
-//            startActivity(intent);
-////            Toast.makeText(this, "Found!", Toast.LENGTH_SHORT).show();
-//        } else {
-//
-//            Toast.makeText(this, "Not Found!", Toast.LENGTH_SHORT).show();
-//        }
         if (keyword.equalsIgnoreCase(keyword)) {
             List<String> searchResults = databaseHelper.searchTruyen(keyword);
-            Intent intent = new Intent(HomeActivity.this, SearchResultActivity.class);
+            Intent intent = new Intent(getActivity(), SearchResultActivity.class);
             intent.putStringArrayListExtra("searchResults", (ArrayList<String>) searchResults);
             startActivity(intent);
         } else {
-            Toast.makeText(HomeActivity.this, "Vui lòng nhập từ khóa!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Vui lòng nhập từ khóa!", Toast.LENGTH_SHORT).show();
         }
-
     }
 }

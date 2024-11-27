@@ -30,6 +30,9 @@
         <activity
             android:name=".BookHistory"
             android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".SearchResultActivity" />
