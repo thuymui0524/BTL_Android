@@ -33,7 +33,7 @@ public class BookDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_book);
         ImageView storyImage = findViewById(R.id.detailImage);
         TextView storyTitle = findViewById(R.id.detailTitle);
-        Button SaveButton = findViewById(R.id.btnSave);
+        //Button SaveButton = findViewById(R.id.btnSave);
         Button readButton = findViewById(R.id.btnread);
           // lay du lieu tu intent
         title = getIntent().getStringExtra("title");
@@ -58,9 +58,9 @@ public class BookDetailActivity extends AppCompatActivity {
         } else {
             storyImage.setImageResource(R.drawable.img); // Đặt hình ảnh mặc định nếu không có
         }
-        SaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//        SaveButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
 
 //                if (title != null && !title.isEmpty()) {
 //                    DatabaseHelper databaseHelper = new DatabaseHelper(BookDetailActivity.this);
@@ -78,8 +78,8 @@ public class BookDetailActivity extends AppCompatActivity {
 //                }
 
 
-            }
-        });
+//            }
+//        });
 
 
         readButton.setOnClickListener(new View.OnClickListener() {
@@ -89,14 +89,7 @@ public class BookDetailActivity extends AppCompatActivity {
             }
         });
         getview();
-        imageView_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent_back=new Intent(BookDetailActivity.this, HomeActivity.class);
-
-                startActivity(intent_back);
-            }
-        });
+        imageView_back.setOnClickListener(v -> finish());
     }
     private void borrowBook() {
 
