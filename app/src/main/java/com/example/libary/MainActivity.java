@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -19,6 +21,20 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
+    private long backPressedTime = 0L;
+    // tạo sự kiện khi thoat app bằng back
+    private OnBackPressedCallback backPressedCallback = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            if (backPressedTime + 2000 > System.currentTimeMillis()) {
+                setEnabled(false);
+                finish();
+            } else {
+                Toast.makeText(MainActivity.this, "Nhấn lại để thoát", Toast.LENGTH_SHORT).show();
+                backPressedTime = System.currentTimeMillis();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             replaceFragment(new HomeActivity());
         }
+        getOnBackPressedDispatcher().addCallback(this, backPressedCallback);
     }
 
     // Xử lý sự kiện khi chọn mục trong BottomNavigationView
@@ -76,5 +93,10 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.view_Fragment, fragment);
         fragmentTransaction.commit();
+    }
+    @Override
+    protected void onDestroy() {
+        backPressedCallback.remove();
+        super.onDestroy();
     }
 }
