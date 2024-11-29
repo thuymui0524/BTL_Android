@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.example.libary.Book;
 import com.example.libary.ClassAdapterHistory;
+import com.example.libary.R;
 import com.example.libary.textUtils;
 
 import java.io.FileOutputStream;
@@ -77,7 +78,8 @@ public class DatabaseHelper extends SQLiteOpenHelper  {
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COLUMN_IDTYPE_BOOK + " INTEGER, "
                 + COLUMN_IMAGE_ID + " INTEGER, "
-                + COLUMN_TITLE + " TEXT)";
+                + COLUMN_TITLE + " TEXT "
+                + ")";
         db.execSQL(CREATE_BOOK_TABLE);
 
         // Tạo bảng lịch sử đọc sách với khóa ngoại
@@ -106,10 +108,44 @@ public class DatabaseHelper extends SQLiteOpenHelper  {
                 + ")";
         db.execSQL(CREATE_TYPEBOOK_TABLE);
         // Sample data insertions
-        db.execSQL("INSERT INTO " + TABLE_HISTORYBOOK + " (idBook, idUser, dTime) VALUES (1, 1, '2012-05-04')");
+
         db.execSQL("INSERT INTO " + TABLE_USER + " (idUser, password,username) VALUES ('admin', 'admin123','ADMIN')");
         db.execSQL("INSERT INTO " + TABLE_USER + " (idUser, password,username) VALUES ('user1', 'password1','USER1')");
-        db.execSQL("INSERT INTO "+TABLE_DATABOOK+ " (idBook, sDatabook) VALUES (1, 'TRR_Ontap.pdf')");
+        // Sample data insertions
+        db.execSQL("INSERT INTO " + TABLE_BOOK + " (image_id, title, idType) VALUES ( "+ R.drawable.img+", 'Giáo trình triết học Mac-Lenin', 1)");
+        db.execSQL("INSERT INTO " + TABLE_BOOK + " (image_id, title, idType) VALUES ( "+ R.drawable.toanroirac+", 'Giáo trình Toán rời rạc', 1)");
+        db.execSQL("INSERT INTO " + TABLE_BOOK + " (image_id, title, idType) VALUES ( "+ R.drawable.tutuonghcm+", 'Tài Liệu Tư Tưởng HCM', 2)");
+        db.execSQL("INSERT INTO " + TABLE_BOOK + " (image_id, title, idType) VALUES ( "+ R.drawable.giaotrinhtinhocdaicuong_001thumbimage+", 'Giáo trình tin học đại cương', 1)");
+        db.execSQL("INSERT INTO " + TABLE_BOOK + " (image_id, title, idType) VALUES ( "+ R.drawable.kientrucmt+", 'Đề ôn Kiến trúc máy tính', 3)");
+        db.execSQL("INSERT INTO " + TABLE_BOOK + " (image_id, title, idType) VALUES ( "+ R.drawable.on30caucnxhkh+", 'Đề ôn 30 câu CNXHKH', 3)");
+        db.execSQL("INSERT INTO " + TABLE_BOOK + " (image_id, title, idType) VALUES ( "+ R.drawable.on30caucnxhkh+", 'Vấn đề ôn tập CNXH', 3)");
+        db.execSQL("INSERT INTO " + TABLE_BOOK + " (image_id, title, idType) VALUES ( "+ R.drawable.giaotrinhandroid+", 'Giao Trình android cơ bản', 1)");
+        db.execSQL("INSERT INTO " + TABLE_BOOK + " (image_id, title, idType) VALUES ( "+ R.drawable.giaotrinhandroid+", 'Kĩ thuật lập trình C cơ bản', 1)");
+
+        db.execSQL("INSERT INTO " + TABLE_HISTORYBOOK + " (idBook, idUser, dTime) VALUES (1, 1, '2012-05-04')");
+        db.execSQL("INSERT INTO " + TABLE_USER + " (idUser, password,username) VALUES ('21A100100026', '21A100100026','Phạm Đức Anh')");
+        db.execSQL("INSERT INTO " + TABLE_USER + " (idUser, password,username) VALUES ('22A1001D0377', '22A1001D0377','Cao Đình Vương')");
+        db.execSQL("INSERT INTO " + TABLE_USER + " (idUser, password,username) VALUES ('21A100100087', '21A100100087','Vũ Tiến Đạt')");
+        db.execSQL("INSERT INTO " + TABLE_USER + " (idUser, password,username) VALUES ('21A100100159', '21A100100157','Vũ Công Hùng')");
+        db.execSQL("INSERT INTO " + TABLE_USER + " (idUser, password,username) VALUES ('21A100100038', '21A100100038','Vương Đăng Kim Bảo')");
+        db.execSQL("INSERT INTO " + TABLE_USER + " (idUser, password,username) VALUES ('21A100100038', '21A100100038','Vũ Hoàng Bắc')");
+        db.execSQL("INSERT INTO " + TABLE_USER + " (idUser, password,username) VALUES ('21A100100122', '21A100100122','Nguyễn Thu Hiền')");
+        db.execSQL("INSERT INTO " + TABLE_USER + " (idUser, password,username) VALUES ('21A100100145', '21A100100145','Nguyễn Khánh Hoàng')");
+        db.execSQL("INSERT INTO " + TABLE_USER + " (idUser, password,username) VALUES ('21A100100059', '21A100100059','Nguyễn Tiến Dũng')");
+
+        db.execSQL("INSERT INTO "+TABLE_DATABOOK+ " (idBook, sDatabook) VALUES (1, 'TriethocMacLenin.pdf')");
+        db.execSQL("INSERT INTO "+TABLE_DATABOOK+ " (idBook, sDatabook) VALUES (2, 'TRR_Ontap.pdf')");
+        db.execSQL("INSERT INTO "+TABLE_DATABOOK+ " (idBook, sDatabook) VALUES (3, 'TaiLieuTuTuongHCM.pdf')");
+        db.execSQL("INSERT INTO "+TABLE_DATABOOK+ " (idBook, sDatabook) VALUES (4, 'Tin_doc_dai_cuong_.pdf')");
+        db.execSQL("INSERT INTO "+TABLE_DATABOOK+ " (idBook, sDatabook) VALUES (5, 'On-Ktrucmaytinh.pdf')");
+        db.execSQL("INSERT INTO "+TABLE_DATABOOK+ " (idBook, sDatabook) VALUES (6, 'CNXHKH 30 chủ đề.pdf')");
+        db.execSQL("INSERT INTO "+TABLE_DATABOOK+ " (idBook, sDatabook) VALUES (7, 'Vấn đề ôn tập CNXHKH-Gửi sinh viên.pdf')");
+        db.execSQL("INSERT INTO "+TABLE_DATABOOK+ " (idBook, sDatabook) VALUES (8, 'tai-lieu-lap-trinh-android-co-ban.pdf')");
+        db.execSQL("INSERT INTO "+TABLE_DATABOOK+ " (idBook, sDatabook) VALUES (9, 'kithuatlaptrinhC.pdf')");
+        // dư liệu loại sách
+        db.execSQL("INSERT INTO "+TABLE_TYPEBOOK+ " (nameType) VALUES ('Giáo trình')");
+        db.execSQL("INSERT INTO "+TABLE_TYPEBOOK+ " (nameType) VALUES ('Tài liệu')");
+        db.execSQL("INSERT INTO "+TABLE_TYPEBOOK+ " (nameType) VALUES ('Đề ôn')");
     }
 
 
