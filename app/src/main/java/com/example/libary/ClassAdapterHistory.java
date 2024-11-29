@@ -2,13 +2,16 @@ package com.example.libary;
 
 public class ClassAdapterHistory {
     public int img;
+    private String id_book;
+
     public String nameBook;
     public String Time;
 
-    public ClassAdapterHistory(int img, String nameBook, String time) {
+    public ClassAdapterHistory(int img, String nameBook, String time,String id_book) {
         this.img = img;
         this.nameBook = nameBook;
-        Time = time;
+        this.id_book=id_book;
+        this.Time = time;
     }
 
     public int getImg() {
@@ -34,4 +37,8 @@ public class ClassAdapterHistory {
     public void setTime(String time) {
         Time = time;
     }
+
+    public String getId_book() { return id_book; }
+
+    public void setId_book(String id_book) { this.id_book = id_book; }
 }

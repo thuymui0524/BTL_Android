@@ -334,29 +334,41 @@ public class DatabaseHelper extends SQLiteOpenHelper  {
         }
         return books;
     }
+    // lay lich su sách
+    // Lấy danh sách lịch sử đọc sách
     public ArrayList<ClassAdapterHistory> getAllhtrBook(int idUser) {
 
-
+        ArrayList<ClassAdapterHistory> bookList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(
-                "SELECT " + COLUMN_TITLE + ", "
-                        + COLUMN_IDBOOK + ", " +COLUMN_IMAGE_ID+", "+ COLUMN_TIME
-                        + " FROM " + TABLE_BOOK + " INNER JOIN "
-                        + TABLE_HISTORYBOOK + " ON " + TABLE_BOOK
-                        + "." + COLUMN_ID + " = " + TABLE_HISTORYBOOK
-                        + "." + COLUMN_IDBOOK + " WHERE "
-                        + COLUMN_ID_USES + "=" +idUser, null);
-        if (cursor.moveToFirst()) {
-            do {
-                String title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE));
-                int idigm = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_ID));
-                String time = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME));
-                ClassAdapterHistory classAdapterHistory = new ClassAdapterHistory(idigm, title, time);
-                bookList.add(classAdapterHistory);
-            } while (cursor.moveToNext());
+        String query = "SELECT " + COLUMN_TITLE + ", " + COLUMN_IDBOOK + ", "
+                + COLUMN_IMAGE_ID + ", " + COLUMN_TIME + " FROM "
+                + TABLE_BOOK + " INNER JOIN " + TABLE_HISTORYBOOK
+                + " ON " + TABLE_BOOK + "." + COLUMN_ID + " = "
+                + TABLE_HISTORYBOOK + "." + COLUMN_IDBOOK + " WHERE "
+                + COLUMN_ID_USES + " = ?" + " ORDER BY " + COLUMN_TIME
+                + " DESC";
+        // Thêm ORDER BY tại đây
+        Cursor cursor = null;
+        try { cursor = db.rawQuery(query, new String[]{String.valueOf(idUser)});
+            if (cursor.moveToFirst()) {
+                do {
+                    String idBook = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IDBOOK));
+                    String title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE));
+                    int idImg = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_ID));
+                    String time = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME));
+                    ClassAdapterHistory classAdapterHistory = new ClassAdapterHistory(idImg, title, time,idBook);
+                    bookList.add(classAdapterHistory); }
+                while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        cursor.close();
-        db.close();
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
         return bookList;
     }
     // luu sach

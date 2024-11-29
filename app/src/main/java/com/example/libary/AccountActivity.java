@@ -26,6 +26,7 @@ public class AccountActivity extends Fragment {
     private String name;
     public int id;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -82,4 +83,6 @@ public class AccountActivity extends Fragment {
 
         return view;
     }
+
+
 }
