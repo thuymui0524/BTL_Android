@@ -49,6 +49,7 @@ public class HistorybookAdapter extends RecyclerView.Adapter<HistorybookAdapter.
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, BookDetailActivity.class);
+                intent.putExtra("id_book", classAdapterHistory.getId_book());
                 intent.putExtra("title", classAdapterHistory.getNameBook());
                 intent.putExtra("imageResourceId",classAdapterHistory.getImg());
                 context.startActivity(intent);

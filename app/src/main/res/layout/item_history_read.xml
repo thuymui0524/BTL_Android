@@ -11,6 +11,7 @@
             android:id="@+id/imghtr"
             android:layout_width="50dp"
             android:layout_height="50dp"
+
             android:layout_gravity="center"/>
         <LinearLayout
             android:layout_marginLeft="5dp"

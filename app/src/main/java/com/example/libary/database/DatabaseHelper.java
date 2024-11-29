@@ -352,10 +352,11 @@ public class DatabaseHelper extends SQLiteOpenHelper  {
         try { cursor = db.rawQuery(query, new String[]{String.valueOf(idUser)});
             if (cursor.moveToFirst()) {
                 do {
+                    String idBook = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IDBOOK));
                     String title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE));
                     int idImg = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_ID));
                     String time = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME));
-                    ClassAdapterHistory classAdapterHistory = new ClassAdapterHistory(idImg, title, time);
+                    ClassAdapterHistory classAdapterHistory = new ClassAdapterHistory(idImg, title, time,idBook);
                     bookList.add(classAdapterHistory); }
                 while (cursor.moveToNext());
             }
