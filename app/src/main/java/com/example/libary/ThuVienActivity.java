@@ -41,7 +41,7 @@ public class ThuVienActivity extends Fragment {
         btn_Tapchi = view.findViewById(R.id.btn_Tapchi);
         btn_Tapchi.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), book_type.class);
-            intent.putExtra("type", "Tạp chí");
+            intent.putExtra("type", "Ôn Tập");
             intent.putExtra("id", "3");
             startActivity(intent);
         });

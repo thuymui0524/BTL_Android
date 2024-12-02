@@ -418,4 +418,34 @@ public class DatabaseHelper extends SQLiteOpenHelper  {
 
 
     }
+    // tim kiem sach cho SearchActivity.java
+    public ArrayList<Book> searchBooksByTitle(String keyword) {
+        ArrayList<Book> bookList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Câu lệnh SQL tìm kiếm
+        String query = "SELECT * FROM " + TABLE_BOOK +
+                " WHERE " + COLUMN_TITLE + " LIKE ?";
+        Cursor cursor = db.rawQuery(query, new String[]{"%" + keyword + "%"});
+
+        // Duyệt kết quả và thêm vào danh sách
+        if (cursor.moveToFirst()) {
+            do {
+                String id = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ID));
+//                int idTypeBook = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IDTYPE_BOOK));
+                int imageId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_ID));
+                String title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE));
+
+                // Tạo đối tượng Book và thêm vào danh sách
+                Book book = new Book(  imageId, title,id);
+                bookList.add(book);
+            } while (cursor.moveToNext());
+        }
+
+        // Đóng cursor và database
+        cursor.close();
+        db.close();
+
+        return bookList;
+    }
 }

@@ -84,28 +84,28 @@ public class HomeActivity extends Fragment {
 
         // Chức năng tìm kiếm
         btnsearch = view.findViewById(R.id.btnsearch);
-        searchEditText = view.findViewById(R.id.searchEditText);
+//        searchEditText = view.findViewById(R.id.searchEditText);
         databaseHelper = new DatabaseHelper(getActivity());
         btnsearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchActivity.class);
                 startActivity(intent);
-                getActivity().finish();
+                getActivity();
             }
         });
 
-        searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH ||
-                        (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN)) {
-                    searchBook();
-                    return true;
-                }
-                return false;
-            }
-        });
+//        searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+//                        (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN)) {
+//                    searchBook();
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
 
         handler.postDelayed(runnable, 3000);
 
@@ -133,15 +133,15 @@ public class HomeActivity extends Fragment {
     }
 
     // Phương thức tìm kiếm sách
-    private void searchBook() {
-        String keyword = searchEditText.getText().toString().toLowerCase().trim();
-        if (keyword.equalsIgnoreCase(keyword)) {
-            List<String> searchResults = databaseHelper.searchTruyen(keyword);
-            Intent intent = new Intent(getActivity(), SearchResultActivity.class);
-            intent.putStringArrayListExtra("searchResults", (ArrayList<String>) searchResults);
-            startActivity(intent);
-        } else {
-            Toast.makeText(getActivity(), "Vui lòng nhập từ khóa!", Toast.LENGTH_SHORT).show();
-        }
-    }
+//    private void searchBook() {
+//        String keyword = searchEditText.getText().toString().toLowerCase().trim();
+//        if (keyword.equalsIgnoreCase(keyword)) {
+//            List<String> searchResults = databaseHelper.searchTruyen(keyword);
+//            Intent intent = new Intent(getActivity(), SearchResultActivity.class);
+//            intent.putStringArrayListExtra("searchResults", (ArrayList<String>) searchResults);
+//            startActivity(intent);
+//        } else {
+//            Toast.makeText(getActivity(), "Vui lòng nhập từ khóa!", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 }
